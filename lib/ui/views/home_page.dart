@@ -1,0 +1,153 @@
+import 'package:cup_coffe_case/core/theme/app_colors.dart';
+import 'package:cup_coffe_case/data/mock/mock_products.dart';
+import 'package:cup_coffe_case/ui/views/details_page.dart';
+import 'package:cup_coffe_case/ui/widgets/coffee_card.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      backgroundColor: AppColors.background,
+      body: SafeArea(
+        child: Padding(
+          padding: const EdgeInsets.all(30.0),
+          child: ListView(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Expanded(
+                    child: Text.rich(
+                      TextSpan(
+                        children: [
+                          TextSpan(
+                            text: "Get your ",
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "Coffee",
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                              color: AppColors.primary,
+                            ),
+                          ),
+                          TextSpan(
+                            text: "\non one finger tap",
+                            style: TextStyle(
+                              fontSize: 28,
+                              fontFamily: "Poppins",
+                              fontWeight: FontWeight.w600,
+                              color: Colors.black,
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  ClipOval(
+                    child: Image.asset(
+                      "assets/pictures/person.jpg",
+                      width: 58,
+                      height: 58,
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ],
+              ),
+
+              const SizedBox(height: 30),
+
+              Container(
+                padding: const EdgeInsets.symmetric(horizontal: 20),
+                decoration: BoxDecoration(
+                  color: AppColors.textFieldColor,
+                  borderRadius: BorderRadius.circular(15),
+                ),
+                child: const TextField(
+                  decoration: InputDecoration(
+                    icon: Padding(
+                      padding: EdgeInsets.only(right: 10),
+                      child: Image(
+                        image: AssetImage("assets/icons/search.png"),
+                        width: 24,
+                        height: 24,
+                      ),
+                    ),
+                    border: InputBorder.none,
+                    hintText: "Search anything",
+                    hintStyle: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      color: AppColors.txtFieldColorDark,
+                    ),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 30),
+
+              const Align(
+                alignment: Alignment.centerLeft,
+                child: Text(
+                  "Popular Coffee",
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 16),
+
+              SizedBox(
+                height: 245,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mockProducts.length,
+                  itemBuilder: (context, index) {
+                    final product = mockProducts[index];
+                    return CoffeeCard(
+                      product: product,
+                      onTap: () {
+
+                      },
+                    );
+                  },
+                ),
+              ),
+
+              const SizedBox(height: 30),
+              
+              Align(
+                alignment: Alignment.centerLeft,
+                child: Text("Nearest coffee shops" , style: TextStyle(
+                  fontFamily: "Poppins",
+                  fontSize: 20,
+                  fontWeight: FontWeight.w600,
+                ),),
+              )
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+}

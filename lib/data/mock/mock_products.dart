@@ -1,0 +1,67 @@
+import 'package:cup_coffe_case/data/entity/product.dart';
+
+List<Product> mockProducts = [
+  Product(
+      id: "1",
+      name: "Cappuccino",
+      imageUrl: "assets/coffees/Cappuccino.jpg",
+      description: "A cappuccino is an espresso-based coffee drink that originated in Austria with later development taking place in Italy..Read more",
+      category: "Coffee",
+      price: 550.0,
+      rating: 5.0,
+      reviewCount: 105,
+      sizes: ["100 ml" , "250 ml" , "500 ml"],
+      location: "Coffee cafe",
+      delivery: 10,
+      quantity: 0,
+      isPopular: true),
+
+  Product(
+    id: '2',
+    name: 'South Filtered',
+    imageUrl: "assets/coffees/southFiltered.png",
+    description: 'A smooth, carefully filtered coffee made from South American beans.',
+    category: 'Coffee',
+    price: 490.0,
+    rating: 4.8,
+    reviewCount: 87,
+    sizes: ['100 ml', '250 ml', '500 ml'],
+    location: "Bunny cafe",
+    delivery: 7,
+    quantity: 0,
+    isPopular: true,
+  ),
+
+  Product(
+    id: '3',
+    name: 'Coffee',
+    imageUrl: "assets/coffees/coffee.jpg",
+    description: 'A smooth, carefully filtered coffee made from South American beans.',
+    category: 'Coffee',
+    price: 490.0,
+    rating: 4.8,
+    reviewCount: 87,
+    sizes: ['100 ml', '250 ml', '500 ml'],
+    location: "Bunny cafe",
+    delivery: 7,
+    quantity: 0,
+    isPopular: true,
+  ),
+
+  Product(
+    id: '4',
+    name: 'Latte',
+    imageUrl: "assets/coffees/latte.jpg",
+    description: 'A smooth, carefully filtered coffee made from South American beans.',
+    category: 'Coffee',
+    price: 490.0,
+    rating: 4.8,
+    reviewCount: 87,
+    sizes: ['100 ml', '250 ml', '500 ml'],
+    location: "Bunny cafe",
+    delivery: 7,
+    quantity: 0,
+    isPopular: true,
+  ),
+
+];
