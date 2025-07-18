@@ -1,7 +1,9 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
+import 'package:cup_coffe_case/data/mock/mock_coffe_shops.dart';
 import 'package:cup_coffe_case/data/mock/mock_products.dart';
 import 'package:cup_coffe_case/ui/views/details_page.dart';
 import 'package:cup_coffe_case/ui/widgets/coffee_card.dart';
+import 'package:cup_coffe_case/ui/widgets/nearest_coffees_cart.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -124,26 +126,67 @@ class _HomePageState extends State<HomePage> {
                   itemCount: mockProducts.length,
                   itemBuilder: (context, index) {
                     final product = mockProducts[index];
-                    return CoffeeCard(
-                      product: product,
-                      onTap: () {
-
-                      },
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        right: 16.0,
+                      ),
+                      child: CoffeeCard(
+                        product: product,
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(product: product)))    .then((value){
+                            print("Turned to home page.");
+                          });
+                        },
+                      ),
                     );
                   },
                 ),
               ),
 
-              const SizedBox(height: 30),
-              
-              Align(
-                alignment: Alignment.centerLeft,
-                child: Text("Nearest coffee shops" , style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                ),),
-              )
+
+              const SizedBox(height: 16),
+
+              Row(
+                children: [
+
+                  Text("Nearest coffee shops" , style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 20,
+                    fontWeight: FontWeight.w600,
+                  ),),
+
+                  Spacer(),
+
+                  Text("View all", style: TextStyle(
+                      fontFamily: "Poppins",
+                      fontSize: 14,
+                      color: AppColors.primary
+                  ),),
+                ],
+              ),
+
+              const SizedBox(height: 16,),
+
+              SizedBox(
+                height: 245,
+                child: ListView.builder(
+                  scrollDirection: Axis.horizontal,
+                  itemCount: mockCoffeShops.length,
+                  itemBuilder: (context, index) {
+                    final coffeShops = mockCoffeShops[index];
+                    return Padding(
+                      padding: EdgeInsets.only(
+                        right: 16.0,
+                      ),
+                      child: NearestCoffeesCart(
+                        coffeShops: coffeShops,
+                        onTap: () {},
+                      ),
+                    );
+                  },
+                ),
+              ),
+
             ],
           ),
         ),
