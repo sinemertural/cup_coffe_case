@@ -10,6 +10,7 @@ class Product{
   final List<String> sizes; //[100 ml  ..]
   final bool isPopular;
   final String location;
+  int discount ;
   int quantity;
   final int delivery; //teslimat süresi
 
@@ -26,6 +27,7 @@ class Product{
     required this.isPopular,
     required this.location,
     this.quantity = 0,
+    this.discount = 0,
     required this.delivery});
 
 }

@@ -13,7 +13,8 @@ List<Product> mockProducts = [
       sizes: ["100 ml" , "250 ml" , "500 ml"],
       location: "Coffee cafe",
       delivery: 10,
-      quantity: 0,
+      quantity: 7,
+      discount: 150,
       isPopular: true),
 
   Product(
@@ -28,7 +29,8 @@ List<Product> mockProducts = [
     sizes: ['100 ml', '250 ml', '500 ml'],
     location: "Bunny cafe",
     delivery: 7,
-    quantity: 0,
+    quantity: 2,
+    discount: 70,
     isPopular: true,
   ),
 
@@ -44,7 +46,8 @@ List<Product> mockProducts = [
     sizes: ['100 ml', '250 ml', '500 ml'],
     location: "Bunny cafe",
     delivery: 7,
-    quantity: 0,
+    quantity: 3,
+    discount: 120,
     isPopular: true,
   ),
 
@@ -60,7 +63,7 @@ List<Product> mockProducts = [
     sizes: ['100 ml', '250 ml', '500 ml'],
     location: "Bunny cafe",
     delivery: 7,
-    quantity: 0,
+    quantity: 5,
     isPopular: true,
   ),
 

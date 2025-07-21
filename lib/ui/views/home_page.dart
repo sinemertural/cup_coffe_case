@@ -133,7 +133,7 @@ class _HomePageState extends State<HomePage> {
                       child: CoffeeCard(
                         product: product,
                         onTap: () {
-                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(product: product)))    .then((value){
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => DetailsPage(product: product))).then((value){
                             print("Turned to home page.");
                           });
                         },

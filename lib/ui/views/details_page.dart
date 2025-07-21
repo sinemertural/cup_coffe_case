@@ -1,4 +1,6 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
+import 'package:cup_coffe_case/ui/views/order_page.dart';
+import 'package:cup_coffe_case/ui/widgets/reusable_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
@@ -41,54 +43,15 @@ class _DetailsPageState extends State<DetailsPage> {
                   ),
                 ),
 
-
-                SafeArea(
-                  child: Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
-                    child: Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        // Geri tuşu
-                        Container(
-                          width: 34,
-                          height: 34,
-                          decoration: const BoxDecoration(
-                            color: Color(0x40FFFFFF),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.arrow_back, color: Colors.white, size: 20),
-                            onPressed: () {
-                              Navigator.pop(context);
-                            },
-                          ),
-                        ),
-
-                        const Text(
-                          "Details",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w600,
-                            fontSize: 18,
-                            color: Colors.white,
-                          ),
-                        ),
-
-                        Container(
-                          width: 34,
-                          height: 34,
-                          decoration: const BoxDecoration(
-                            color: Color(0x40FFFFFF),
-                            shape: BoxShape.circle,
-                          ),
-                          child: IconButton(
-                            icon: const Icon(Icons.favorite_outline, color: Colors.white, size: 20),
-                            onPressed: () {},
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
+                ReusableAppBar(
+                  title: "Details",
+                  onBackPressed: () {
+                    Navigator.pop(context);
+                  },
+                  onActionPressed: () {
+                    print("Favoriye eklendi");
+                  },
+                  actionIcon: Icons.favorite_border,
                 ),
               ],
             ),
@@ -350,7 +313,9 @@ class _DetailsPageState extends State<DetailsPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                         ),
                         onPressed: () {
-                          // Sepete ekleme işlemi
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(product: widget.product,))).then((value){
+                            print("Turned to Details Page");
+                          });
                         },
                         child: const Text(
                           "Add to cart",
@@ -362,8 +327,8 @@ class _DetailsPageState extends State<DetailsPage> {
                           ),
                         ),
                       ),
-                  
-                  
+
+
                     ],
                   ),
                 )
