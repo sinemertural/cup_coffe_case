@@ -4,6 +4,9 @@ class CoffeShops {
   final double distance;
   final double rating;
   final int totalRatings;
+  final bool isNear;
+  final String description;
+  final String title;
 
   CoffeShops({
     required this.name,
@@ -11,5 +14,8 @@ class CoffeShops {
     required this.distance,
     required this.rating,
     required this.totalRatings,
+    required this.isNear,
+    required this.description,
+    required this.title
   });
 }

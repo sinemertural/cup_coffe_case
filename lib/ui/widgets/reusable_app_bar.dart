@@ -24,16 +24,15 @@ class ReusableAppBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-
             Container(
               width: 34,
               height: 34,
               decoration: BoxDecoration(
-                color: iconColor.withOpacity(0.25),
+                color: Colors.white.withOpacity(0.25),
                 shape: BoxShape.circle,
               ),
               child: IconButton(
@@ -57,7 +56,7 @@ class ReusableAppBar extends StatelessWidget {
                 width: 34,
                 height: 34,
                 decoration: BoxDecoration(
-                  color: iconColor.withOpacity(0.25),
+                  color: Colors.white.withOpacity(0.25),
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(

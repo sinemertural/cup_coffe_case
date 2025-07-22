@@ -2,6 +2,7 @@ import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/data/mock/mock_coffe_shops.dart';
 import 'package:cup_coffe_case/data/mock/mock_products.dart';
 import 'package:cup_coffe_case/ui/views/details_page.dart';
+import 'package:cup_coffe_case/ui/views/nearby_cafes_page.dart';
 import 'package:cup_coffe_case/ui/widgets/coffee_card.dart';
 import 'package:cup_coffe_case/ui/widgets/nearest_coffees_cart.dart';
 import 'package:flutter/cupertino.dart';
@@ -180,7 +181,9 @@ class _HomePageState extends State<HomePage> {
                       ),
                       child: NearestCoffeesCart(
                         coffeShops: coffeShops,
-                        onTap: () {},
+                        onTap: () {
+                          Navigator.push(context, MaterialPageRoute(builder: (context) => NearbyCafesPage(coffeShops:coffeShops)));
+                        },
                       ),
                     );
                   },

@@ -67,4 +67,36 @@ List<Product> mockProducts = [
     isPopular: true,
   ),
 
+  Product(
+    id: '5',
+    name: 'Hot Chocolate',
+    imageUrl: "assets/coffees/hot_chocolate.png",
+    description: 'A smooth, carefully filtered coffee made from South American beans.',
+    category: 'Coffee',
+    price: 490.0,
+    rating: 4.8,
+    reviewCount: 87,
+    sizes: ['100 ml', '250 ml', '500 ml'],
+    location: "Bunny cafe",
+    delivery: 7,
+    quantity: 5,
+    isPopular: true,
+  ),
+
+  Product(
+    id: '6',
+    name: 'Filter Coffee',
+    imageUrl: "assets/coffees/filter_coffee.png",
+    description: 'A smooth, carefully filtered coffee made from South American beans.',
+    category: 'Coffee',
+    price: 490.0,
+    rating: 4.8,
+    reviewCount: 87,
+    sizes: ['100 ml', '250 ml', '500 ml'],
+    location: "Bunny cafe",
+    delivery: 7,
+    quantity: 5,
+    isPopular: true,
+  ),
+
 ];

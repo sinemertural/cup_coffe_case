@@ -71,6 +71,7 @@ flutter:
     - assets/coffees/
     - assets/coffee_shops/
     - assets/giffs/
+    - assets/coffee_shops/coffe_shops_details/
 
   # To add assets to your application, add an assets section, like this:
   # assets:

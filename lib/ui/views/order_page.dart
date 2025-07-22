@@ -25,9 +25,7 @@ class _OrderPageState extends State<OrderPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      body: Padding(
-        padding: EdgeInsets.only(left: 30 , right: 30),
-        child: Column(
+      body: Column(
           children: [
             ReusableAppBar(
               title: "Place Order",
@@ -50,42 +48,45 @@ class _OrderPageState extends State<OrderPage> {
 
             const SizedBox(height: 20,),
 
-            SizedBox(
-                width: double.infinity,
-                child: ElevatedButton(
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: const Color(0xFF314D45),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(15),
-                    ),
-                    padding: const EdgeInsets.symmetric(vertical: 15),
-                  ),
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => ProcessingPage(),
+            Padding(
+              padding: EdgeInsets.only(left: 30, right: 30),
+              child: SizedBox(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xFF314D45),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                    ).then((value) {
-                      print("Turned to Details Page");
-                    });
-                  },
-                  child: const Text(
-                    "Pay now",
-                    style: TextStyle(
-                      fontFamily: "Poppins",
-                      fontWeight: FontWeight.w600,
-                      fontSize: 18,
-                      color: Colors.white,
+                      padding: const EdgeInsets.symmetric(vertical: 15),
+                    ),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => ProcessingPage(),
+                        ),
+                      ).then((value) {
+                        print("Turned to Details Page");
+                      });
+                    },
+                    child: const Text(
+                      "Pay now",
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontWeight: FontWeight.w600,
+                        fontSize: 18,
+                        color: Colors.white,
+                      ),
                     ),
                   ),
-                ),
-        )
+                      ),
+            )
 
 
           ],
         ),
-      ),
-    );
+      );
+
   }
 }
