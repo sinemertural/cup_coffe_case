@@ -2,7 +2,7 @@ import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/entity/product.dart';
+import '../../../data/entity/product.dart';
 
 class OrderSummaryCard extends StatefulWidget {
   final Product product;

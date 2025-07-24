@@ -20,6 +20,18 @@ class DetailsPage extends StatefulWidget {
 
 class _DetailsPageState extends State<DetailsPage> {
   int quantity = 1;
+  Set<String> selectedExtras = {};
+  String? selectedSize;
+
+  void toggleExtra(String extra) {
+    setState(() {
+      if (selectedExtras.contains(extra)) {
+        selectedExtras.remove(extra);
+      } else {
+        selectedExtras.add(extra);
+      }
+    });
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -121,47 +133,56 @@ class _DetailsPageState extends State<DetailsPage> {
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
-                    Container(
-                      width: 73.3,
-                      height: 73.3,
-                      decoration: BoxDecoration(
-                        color: Color(0x1AFFB067),
-                        borderRadius: BorderRadius.circular(24),
+                    GestureDetector(
+                      onTap: () => toggleExtra('extra coffee'),
+                      child: Container(
+                        width: 73.3,
+                        height: 73.3,
+                        decoration: BoxDecoration(
+                          color: selectedExtras.contains('extra coffee') ? Color(0xFFFFB067) : Color(0x1AFFB067),
+                          borderRadius: BorderRadius.circular(24),
+                        ),
+                        child: Center(
+                          child: Image.asset("assets/icons/coffe_beans.png" ,
+                            width: 33,
+                            height: 33,
+                            color: selectedExtras.contains('extra coffee') ? Colors.white : Color(0XFFFFB067),),
+                        )
                       ),
-                      child: Center(
-                        child: Image.asset("assets/icons/coffe_beans.png" ,
-                          width: 33,
-                          height: 33,
-                          color: Color(0XFFFFB067),),
-                      )
                     ),
-                    Container(
-                        width: 73.3,
-                        height: 73.3,
-                        decoration: BoxDecoration(
-                          color: Color(0x1AFFB067),
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: Center(
-                          child: Image.asset("assets/icons/milk_carton.png" ,
-                            width: 33,
-                            height: 33,
-                            color: Color(0XFFFFB067),),
-                        )
+                    GestureDetector(
+                      onTap: () => toggleExtra('extra milk'),
+                      child: Container(
+                          width: 73.3,
+                          height: 73.3,
+                          decoration: BoxDecoration(
+                            color: selectedExtras.contains('extra milk') ? Color(0xFFFFB067) : Color(0x1AFFB067),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Center(
+                            child: Image.asset("assets/icons/milk_carton.png" ,
+                              width: 33,
+                              height: 33,
+                              color: selectedExtras.contains('extra milk') ? Colors.white : Color(0XFFFFB067),),
+                          )
+                      ),
                     ),
-                    Container(
-                        width: 73.3,
-                        height: 73.3,
-                        decoration: BoxDecoration(
-                          color: Color(0x1AFFB067),
-                          borderRadius: BorderRadius.circular(24),
-                        ),
-                        child: Center(
-                          child: Image.asset("assets/icons/whipped_cream.png" ,
-                            width: 33,
-                            height: 33,
-                            color: Color(0XFFFFB067),),
-                        )
+                    GestureDetector(
+                      onTap: () => toggleExtra('extra cream'),
+                      child: Container(
+                          width: 73.3,
+                          height: 73.3,
+                          decoration: BoxDecoration(
+                            color: selectedExtras.contains('extra cream') ? Color(0xFFFFB067) : Color(0x1AFFB067),
+                            borderRadius: BorderRadius.circular(24),
+                          ),
+                          child: Center(
+                            child: Image.asset("assets/icons/whipped_cream.png" ,
+                              width: 33,
+                              height: 33,
+                              color: selectedExtras.contains('extra cream') ? Colors.white : Color(0XFFFFB067),),
+                          )
+                      ),
                     ),
                   ],
                 ),
@@ -181,72 +202,42 @@ class _DetailsPageState extends State<DetailsPage> {
 
                 Padding(
                   padding: const EdgeInsets.symmetric(horizontal: 30),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      ElevatedButton(
-                        onPressed: () {},
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor:Color(0xFF314D45),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
+                  child: SingleChildScrollView(
+                    scrollDirection: Axis.horizontal,
+                    child: Row(
+                      children: [
+                        for (int i = 0; i < widget.product.sizes.length; i++)
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 2.0),
+                            child: GestureDetector(
+                              onTap: () {
+                                setState(() {
+                                  selectedSize = widget.product.sizes[i];
+                                });
+                              },
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  color: selectedSize == widget.product.sizes[i] ? Color(0xFF314D45) : Colors.transparent,
+                                  border: Border.all(
+                                    color: Color(0xFF314D45),
+                                    width: 1.5,
+                                  ),
+                                  borderRadius: BorderRadius.circular(8),
+                                ),
+                                padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
+                                child: Text(
+                                  widget.product.sizes[i],
+                                  style: TextStyle(
+                                    fontFamily: "Poppins",
+                                    fontSize: 16,
+                                    color: selectedSize == widget.product.sizes[i] ? Colors.white : Color(0xFF314D45),
+                                  ),
+                                ),
+                              ),
+                            ),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                        ),
-                        child: Text(
-                          widget.product.sizes[0],
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            color: Colors.white,
-                          ),
-                        ),
-                      ),
-
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(
-                            color: Color(0xFF314D45),
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                        ),
-                        child: Text(
-                          widget.product.sizes[1],
-                          style: const TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            color: Color(0xFF2F4F46),
-                          ),
-                        ),
-                      ),
-
-                      OutlinedButton(
-                        onPressed: () {},
-                        style: OutlinedButton.styleFrom(
-                          side: const BorderSide(
-                            color: Color(0xFF314D45),
-                            width: 1.5,
-                          ),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 8),
-                        ),
-                        child: Text(
-                          widget.product.sizes[2],
-                          style: const TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 16,
-                            color: Color(0xFF314D45),
-                          ),
-                        ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ),
 
@@ -313,6 +304,11 @@ class _DetailsPageState extends State<DetailsPage> {
                           padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 15),
                         ),
                         onPressed: () {
+                          widget.product.extras = selectedExtras.toList();
+                          print('Seçilen ekstralar: ${widget.product.extras}');
+                          print('Seçilen boyut: ${selectedSize ?? "Seçilmedi"}');
+                          widget.product.quantity = quantity;
+                          print('Seçilen adet: $quantity');
                           Navigator.push(context, MaterialPageRoute(builder: (context) => OrderPage(product: widget.product,))).then((value){
                             print("Turned to Details Page");
                           });

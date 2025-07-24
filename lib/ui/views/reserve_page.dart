@@ -22,6 +22,7 @@ class ReservePage extends StatefulWidget {
 }
 
 class _ReservePageState extends State<ReservePage> {
+  String selectedCategory = 'Coffee';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -97,22 +98,34 @@ class _ReservePageState extends State<ReservePage> {
                   children: [
                     Column(
                       children: [
-                        Text(
-                          "Coffee",
-                          style: TextStyle(
-                            fontSize: 18,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.black,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                        const SizedBox(height: 4),
-                        Container(
-                          width: 6,
-                          height: 6,
-                          decoration: const BoxDecoration(
-                            color: Colors.black,
-                            shape: BoxShape.circle,
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = 'Coffee';
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Text(
+                                "Coffee",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: selectedCategory == 'Coffee' ? FontWeight.bold : FontWeight.w500,
+                                  color: selectedCategory == 'Coffee' ? Colors.black : Colors.grey.shade400,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              if (selectedCategory == 'Coffee')
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                            ],
                           ),
                         ),
                       ],
@@ -120,16 +133,36 @@ class _ReservePageState extends State<ReservePage> {
                     const SizedBox(width: 48),
                     Column(
                       children: [
-                        Text(
-                        "Cakes",
-                        style: TextStyle(
-                          fontSize: 18,
-                          fontWeight: FontWeight.w500,
-                          color: Colors.grey.shade400,
-                          fontFamily: "Poppins",
+                        GestureDetector(
+                          onTap: () {
+                            setState(() {
+                              selectedCategory = 'Cake';
+                            });
+                          },
+                          child: Column(
+                            children: [
+                              Text(
+                                "Cakes",
+                                style: TextStyle(
+                                  fontSize: 18,
+                                  fontWeight: selectedCategory == 'Cake' ? FontWeight.bold : FontWeight.w500,
+                                  color: selectedCategory == 'Cake' ? Colors.black : Colors.grey.shade400,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                              const SizedBox(height: 4),
+                              if (selectedCategory == 'Cake')
+                                Container(
+                                  width: 6,
+                                  height: 6,
+                                  decoration: const BoxDecoration(
+                                    color: Colors.black,
+                                    shape: BoxShape.circle,
+                                  ),
+                                ),
+                            ],
+                          ),
                         ),
-                      ),
-                        const SizedBox(height: 10),
                       ]
                     ),
                   ],
@@ -164,17 +197,18 @@ class _ReservePageState extends State<ReservePage> {
             child: Padding(
               padding: EdgeInsets.only(top: 20,left: 30,right: 30),
               child: GridView.builder(
-                  itemCount: mockProducts.length,
-                  gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                    crossAxisCount: 2,
-                    crossAxisSpacing: 20,
-                    mainAxisSpacing: 20,
-                    childAspectRatio: 0.66,
-                  ),
-                  itemBuilder: (context, index) {
-                    return ReserveCart(product: mockProducts[index]);
-                  },
+                itemCount: mockProducts.where((p) => p.category.toLowerCase().contains(selectedCategory.toLowerCase())).length,
+                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 2,
+                  crossAxisSpacing: 20,
+                  mainAxisSpacing: 20,
+                  childAspectRatio: 0.66,
                 ),
+                itemBuilder: (context, index) {
+                  final filteredProducts = mockProducts.where((p) => p.category.toLowerCase().contains(selectedCategory.toLowerCase())).toList();
+                  return ReserveCart(product: filteredProducts[index]);
+                },
+              ),
             ),
             ),
         ],

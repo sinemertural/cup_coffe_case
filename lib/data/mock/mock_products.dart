@@ -88,7 +88,7 @@ List<Product> mockProducts = [
     name: 'Filter Coffee',
     imageUrl: "assets/coffees/filter_coffee.png",
     description: 'A smooth, carefully filtered coffee made from South American beans.',
-    category: 'Coffee',
+    category: 'Cake',
     price: 490.0,
     rating: 4.8,
     reviewCount: 87,

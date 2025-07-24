@@ -2,6 +2,7 @@ import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/data/entity/coffe_shops.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:ui';
 
 class NearestCoffeesCart extends StatelessWidget {
 
@@ -54,32 +55,41 @@ class NearestCoffeesCart extends StatelessWidget {
                 ),
 
                 Positioned(
-                  right: 12,
-                  child: Container(
-                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
-                    decoration: BoxDecoration(
-                      color: Color(0x40FFFFFF),
-                      borderRadius: BorderRadius.circular(20),
+                  right: 0,
+                  top: 0,
+                  child: ClipRRect(
+                    borderRadius: const BorderRadius.only(
+                      topRight: Radius.circular(15),
+                      bottomLeft: Radius.circular(15),
                     ),
-                    child: Row(
-                      mainAxisSize: MainAxisSize.min,
-                      children: [
-                        Icon(
-                          Icons.location_on_outlined,
-                          color: Colors.white,
-                          size: 16,
+                    child: BackdropFilter(
+                      filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                      child: Container(
+                        width: 85,
+                        height: 30,
+                        color: Colors.white.withOpacity(0.25),
+                        padding: const EdgeInsets.symmetric(horizontal: 6),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.location_on_outlined,
+                              color: Colors.white,
+                              size: 18,
+                            ),
+                            SizedBox(width: 2),
+                            Text(
+                              "${coffeShops.distance.toString()} km",
+                              style: TextStyle(
+                                fontFamily: "Poppins",
+                                fontSize: 14,
+                                color: Colors.white,
+                                fontWeight: FontWeight.w600,
+                              ),
+                            ),
+                          ],
                         ),
-                        SizedBox(width: 4),
-                        Text(
-                          "${coffeShops.distance.toString()} km",
-                          style: TextStyle(
-                            fontFamily: "Poppins",
-                            fontSize: 12,
-                            color: Colors.white,
-                            fontWeight: FontWeight.w500,
-                          ),
-                        ),
-                      ],
+                      ),
                     ),
                   ),
                 ),

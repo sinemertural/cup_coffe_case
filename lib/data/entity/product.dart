@@ -13,6 +13,7 @@ class Product{
   int discount ;
   int quantity;
   final int delivery; //teslimat süresi
+  List<String> extras;
 
   Product({
     required this.id,
@@ -28,6 +29,8 @@ class Product{
     required this.location,
     this.quantity = 0,
     this.discount = 0,
-    required this.delivery});
+    required this.delivery,
+    this.extras = const [],
+  });
 
 }

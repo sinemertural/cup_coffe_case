@@ -2,14 +2,16 @@ import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
-import '../../data/entity/product.dart';
+import '../../../data/entity/product.dart';
 
 class CoffeOrderCard extends StatefulWidget {
   final Product product;
+  final void Function(int)? onQuantityChanged;
 
   const CoffeOrderCard({
     super.key,
-    required this.product
+    required this.product,
+    this.onQuantityChanged,
   });
 
   @override
@@ -17,7 +19,61 @@ class CoffeOrderCard extends StatefulWidget {
 }
 
 class _CoffeOrderCardState extends State<CoffeOrderCard> {
-  int quantity = 0;
+  late int quantity;
+
+  String get quantityText {
+    switch (quantity) {
+      case 1:
+        return 'One';
+      case 2:
+        return 'Two';
+      case 3:
+        return 'Three';
+      case 4:
+        return 'Four';
+      case 5:
+        return 'Five';
+      default:
+        return quantity.toString();
+    }
+  }
+
+  String get selectedSizeText {
+    if (widget.product.sizes.isNotEmpty) {
+      if (widget.product.extras != null && widget.product.extras.isNotEmpty) {
+        return widget.product.sizes.length > 1 ? widget.product.sizes[1] : widget.product.sizes[0];
+      }
+      return widget.product.sizes.length > 1 ? widget.product.sizes[1] : widget.product.sizes[0];
+    }
+    return '';
+  }
+
+  String get extrasText {
+    if (widget.product.extras.isNotEmpty) {
+      return ' with ' + widget.product.extras.join(', ');
+    }
+    return '';
+  }
+
+  String get orderMainText {
+    return '${quantityText} ${selectedSizeText}';
+  }
+  String get orderExtrasText {
+    if (widget.product.extras.isNotEmpty) {
+      return 'with ' + widget.product.extras.join(', ');
+    }
+    return '';
+  }
+
+  String get orderDescription {
+    return '${quantityText} ${selectedSizeText}${extrasText}';
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    quantity = widget.product.quantity;
+  }
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -49,11 +105,28 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                   color: Colors.black
                 ),),
                 SizedBox(height: 4,),
-                Text("${widget.product.sizes[1].toString()} with " , style: TextStyle(
-                  fontFamily: "Poppins",
-                  fontSize: 14,
-                  color: AppColors.txtFieldColorDark
-                ),)
+                Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      orderMainText,
+                      style: TextStyle(
+                        fontFamily: "Poppins",
+                        fontSize: 14,
+                        color: AppColors.txtFieldColorDark
+                      ),
+                    ),
+                    if (orderExtrasText.isNotEmpty)
+                      Text(
+                        orderExtrasText,
+                        style: TextStyle(
+                          fontFamily: "Poppins",
+                          fontSize: 14,
+                          color: AppColors.txtFieldColorDark
+                        ),
+                      ),
+                  ],
+                ),
               ],
             ),
           ),
@@ -74,6 +147,7 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                     onPressed: (){
                       setState(() {
                         if (quantity > 1) quantity--;
+                        widget.onQuantityChanged?.call(quantity);
                       });
                     },),
                 ),
@@ -102,6 +176,7 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                     onPressed: () {
                       setState(() {
                         quantity++;
+                        widget.onQuantityChanged?.call(quantity);
                       });
                     },
                   ),
