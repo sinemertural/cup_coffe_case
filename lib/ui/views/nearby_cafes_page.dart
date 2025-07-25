@@ -186,8 +186,6 @@ class _NearbyCafesPageState extends State<NearbyCafesPage> {
                       ),
                     ),
                   )
-
-
                 ],
               ),
             )

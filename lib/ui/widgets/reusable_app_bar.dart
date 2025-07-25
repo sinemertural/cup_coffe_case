@@ -6,7 +6,7 @@ class ReusableAppBar extends StatelessWidget {
   final String title;
   final VoidCallback onBackPressed;
   final VoidCallback? onActionPressed;
-  final IconData? actionIcon;
+  final Widget? actionIcon;
   final Color textColor;
   final Color iconColor;
 
@@ -60,11 +60,7 @@ class ReusableAppBar extends StatelessWidget {
                   shape: BoxShape.circle,
                 ),
                 child: IconButton(
-                  icon: Icon(
-                    actionIcon!,
-                    color: iconColor,
-                    size: 20,
-                  ),
+                  icon: actionIcon!,
                   onPressed: onActionPressed,
                 ),
               )

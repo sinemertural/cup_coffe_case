@@ -1,4 +1,7 @@
-import 'package:cup_coffe_case/ui/cubit/base_page_cubit.dart';
+import 'package:cup_coffe_case/ui/cubit/base_cubit.dart';
+import 'package:cup_coffe_case/ui/cubit/home_cubit.dart';
+import 'package:cup_coffe_case/ui/cubit/order_cubit.dart';
+import 'package:cup_coffe_case/ui/cubit/reserve_cubit.dart';
 import 'package:cup_coffe_case/ui/views/base_page.dart';
 import 'package:cup_coffe_case/ui/views/home_page.dart';
 import 'package:cup_coffe_case/ui/views/splash_screen.dart';
@@ -16,7 +19,10 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider(create: (context) => BasePageCubit()),
+        BlocProvider(create: (context) => BaseCubit()),
+        BlocProvider(create: (context) => HomeCubit()),
+        BlocProvider(create: (context) => ReserveCubit()),
+        BlocProvider(create: (context) => OrderCubit())
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

@@ -15,7 +15,9 @@ List<Product> mockProducts = [
       delivery: 10,
       quantity: 7,
       discount: 150,
-      isPopular: true),
+      isPopular: true,
+      isFavorite: false,
+  ),
 
   Product(
     id: '2',
@@ -32,6 +34,7 @@ List<Product> mockProducts = [
     quantity: 2,
     discount: 70,
     isPopular: true,
+    isFavorite: false
   ),
 
   Product(
@@ -49,6 +52,7 @@ List<Product> mockProducts = [
     quantity: 3,
     discount: 120,
     isPopular: true,
+    isFavorite: false
   ),
 
   Product(
@@ -65,6 +69,7 @@ List<Product> mockProducts = [
     delivery: 7,
     quantity: 5,
     isPopular: true,
+    isFavorite: false
   ),
 
   Product(
@@ -81,6 +86,7 @@ List<Product> mockProducts = [
     delivery: 7,
     quantity: 5,
     isPopular: true,
+    isFavorite: false
   ),
 
   Product(
@@ -97,6 +103,7 @@ List<Product> mockProducts = [
     delivery: 7,
     quantity: 5,
     isPopular: true,
+    isFavorite: false
   ),
 
 ];

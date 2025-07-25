@@ -48,25 +48,8 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
     return '';
   }
 
-  String get extrasText {
-    if (widget.product.extras.isNotEmpty) {
-      return ' with ' + widget.product.extras.join(', ');
-    }
-    return '';
-  }
-
   String get orderMainText {
-    return '${quantityText} ${selectedSizeText}';
-  }
-  String get orderExtrasText {
-    if (widget.product.extras.isNotEmpty) {
-      return 'with ' + widget.product.extras.join(', ');
-    }
-    return '';
-  }
-
-  String get orderDescription {
-    return '${quantityText} ${selectedSizeText}${extrasText}';
+    return '${quantityText} ${selectedSizeText} with';
   }
 
   @override
@@ -78,7 +61,7 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
   Widget build(BuildContext context) {
     return Container(
       width: 368,
-      height: 106,
+      height: 135,
       decoration: BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.circular(20),
@@ -105,28 +88,30 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                   color: Colors.black
                 ),),
                 SizedBox(height: 4,),
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      orderMainText,
-                      style: TextStyle(
-                        fontFamily: "Poppins",
-                        fontSize: 14,
-                        color: AppColors.txtFieldColorDark
-                      ),
-                    ),
-                    if (orderExtrasText.isNotEmpty)
-                      Text(
-                        orderExtrasText,
-                        style: TextStyle(
-                          fontFamily: "Poppins",
-                          fontSize: 14,
-                          color: AppColors.txtFieldColorDark
-                        ),
-                      ),
-                  ],
+                Text(
+                  orderMainText,
+                  style: TextStyle(
+                    fontFamily: "Poppins",
+                    fontSize: 14,
+                    color: AppColors.txtFieldColorDark
+                  ),
                 ),
+                if (widget.product.extras.isNotEmpty)
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: widget.product.extras.map((extra) =>
+                        Text(
+                          extra,
+                          style: TextStyle(
+                            fontFamily: "Poppins",
+                            fontSize: 12,
+                            color: AppColors.txtFieldColorDark
+                          ),
+                        )
+                      ).toList(),
+                    ),
+                  ),
               ],
             ),
           ),
@@ -168,7 +153,7 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                   width: 33,
                   height: 33,
                   decoration: BoxDecoration(
-                    color: const Color(0xFFFFB067), // Turuncu
+                    color: const Color(0xFFFFB067),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: IconButton(

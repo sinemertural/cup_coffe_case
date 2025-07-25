@@ -3,6 +3,8 @@ import 'package:cup_coffe_case/ui/views/order_page.dart';
 import 'package:cup_coffe_case/ui/widgets/reusable_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/home_cubit.dart';
 
 import '../../data/entity/product.dart';
 
@@ -61,9 +63,14 @@ class _DetailsPageState extends State<DetailsPage> {
                     Navigator.pop(context);
                   },
                   onActionPressed: () {
-                    print("Favoriye eklendi");
+                    setState(() {
+                      context.read<HomeCubit>().toggleFavorite(widget.product);
+                    });
                   },
-                  actionIcon: Icons.favorite_border,
+                  actionIcon: Icon(
+                    widget.product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                    color: widget.product.isFavorite ? Colors.red : Colors.white,
+                  ),
                 ),
               ],
             ),

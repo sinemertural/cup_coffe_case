@@ -1,5 +1,5 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
-import 'package:cup_coffe_case/ui/cubit/base_page_cubit.dart';
+import 'package:cup_coffe_case/ui/cubit/base_cubit.dart';
 import 'package:cup_coffe_case/ui/views/home_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -15,7 +15,7 @@ class BasePage extends StatefulWidget {
 class _BasePageState extends State<BasePage> {
   @override
   Widget build(BuildContext context) {
-    return BlocBuilder<BasePageCubit, int>(
+    return BlocBuilder<BaseCubit, int>(
         builder: (context, selectedPage) {
           final pages = [const HomePage()];
 
@@ -94,7 +94,7 @@ class _BasePageState extends State<BasePage> {
                     currentIndex: selectedPage,
                     selectedItemColor: AppColors.primary_green,
                     onTap: (index) {
-                      context.read<BasePageCubit>().changePage(index);
+                      context.read<BaseCubit>().changePage(index);
                     },
                   ),
                 ),

@@ -1,5 +1,7 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../../cubit/home_cubit.dart';
 import 'package:cup_coffe_case/data/entity/product.dart';
 
 class CoffeeCard extends StatelessWidget {
@@ -54,18 +56,23 @@ class CoffeeCard extends StatelessWidget {
                   Positioned(
                     right: 20,
                     top: 12,
-                    child: Container(
-                      width: 34,
-                      height: 34,
-                      decoration: BoxDecoration(
-                        color: const Color(0x40FFFFFF),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Center(
-                        child: Icon(
-                          Icons.favorite_outline,
-                          color: Colors.white,
-                          size: 20,
+                    child: GestureDetector(
+                      onTap: () {
+                        context.read<HomeCubit>().toggleFavorite(product);
+                      },
+                      child: Container(
+                        width: 34,
+                        height: 34,
+                        decoration: BoxDecoration(
+                          color: const Color(0x40FFFFFF),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Center(
+                          child: Icon(
+                            product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                            color: product.isFavorite ? Colors.red : Colors.white,
+                            size: 20,
+                          ),
                         ),
                       ),
                     ),

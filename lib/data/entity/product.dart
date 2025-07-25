@@ -14,6 +14,7 @@ class Product{
   int quantity;
   final int delivery; //teslimat süresi
   List<String> extras;
+  bool isFavorite;
 
   Product({
     required this.id,
@@ -31,6 +32,7 @@ class Product{
     this.discount = 0,
     required this.delivery,
     this.extras = const [],
+    this.isFavorite = false
   });
 
 }

@@ -1,12 +1,14 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/data/entity/coffe_shops.dart';
-import 'package:cup_coffe_case/ui/widgets/reserve_cart.dart';
+import 'package:cup_coffe_case/ui/widgets/reserve_widget/reserve_cart.dart';
 import 'package:cup_coffe_case/ui/widgets/reusable_app_bar.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/entity/product.dart';
 import '../../data/mock/mock_products.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import '../cubit/reserve_cubit.dart';
 
 class ReservePage extends StatefulWidget {
   final CoffeShops coffeShops;
@@ -23,6 +25,12 @@ class ReservePage extends StatefulWidget {
 
 class _ReservePageState extends State<ReservePage> {
   String selectedCategory = 'Coffee';
+
+  @override
+  void initState() {
+    super.initState();
+      context.read<ReserveCubit>().getProductsbyCategory('Coffee');
+  }
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -103,6 +111,7 @@ class _ReservePageState extends State<ReservePage> {
                             setState(() {
                               selectedCategory = 'Coffee';
                             });
+                            context.read<ReserveCubit>().getProductsbyCategory('Coffee');
                           },
                           child: Column(
                             children: [
@@ -138,6 +147,7 @@ class _ReservePageState extends State<ReservePage> {
                             setState(() {
                               selectedCategory = 'Cake';
                             });
+                            context.read<ReserveCubit>().getProductsbyCategory('Cake');
                           },
                           child: Column(
                             children: [
@@ -196,17 +206,20 @@ class _ReservePageState extends State<ReservePage> {
           Expanded(
             child: Padding(
               padding: EdgeInsets.only(top: 20,left: 30,right: 30),
-              child: GridView.builder(
-                itemCount: mockProducts.where((p) => p.category.toLowerCase().contains(selectedCategory.toLowerCase())).length,
-                gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                  crossAxisCount: 2,
-                  crossAxisSpacing: 20,
-                  mainAxisSpacing: 20,
-                  childAspectRatio: 0.66,
-                ),
-                itemBuilder: (context, index) {
-                  final filteredProducts = mockProducts.where((p) => p.category.toLowerCase().contains(selectedCategory.toLowerCase())).toList();
-                  return ReserveCart(product: filteredProducts[index]);
+              child: BlocBuilder<ReserveCubit, List<Product>>(
+                builder: (context, products) {
+                  return GridView.builder(
+                    itemCount: products.length,
+                    gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                      crossAxisCount: 2,
+                      crossAxisSpacing: 20,
+                      mainAxisSpacing: 20,
+                      childAspectRatio: 0.66,
+                    ),
+                    itemBuilder: (context, index) {
+                      return ReserveCart(product: products[index]);
+                    },
+                  );
                 },
               ),
             ),
