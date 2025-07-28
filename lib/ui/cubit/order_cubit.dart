@@ -1,15 +1,45 @@
-import 'package:cup_coffe_case/data/entity/product.dart';
-import 'package:cup_coffe_case/data/repo/order_repository.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:cup_coffe_case/data/repo/order_repository.dart';
+import 'package:cup_coffe_case/data/repo/address_repository.dart';
+import 'package:cup_coffe_case/data/entity/order.dart';
+import 'package:cup_coffe_case/data/entity/address.dart';
+import 'package:cup_coffe_case/data/state/order_state.dart';
 
-import '../../data/entity/order.dart';
+class OrderCubit extends Cubit<OrderState> {
+  final OrderRepository _orderRepository = OrderRepository();
+  final AddressRepository _addressRepository = AddressRepository();
 
-class OrderCubit extends Cubit<bool> {
-  OrderCubit():super(false);
-  final order_repo = OrderRepository();
+  OrderCubit() : super(OrderInitial());
 
-  Future<void> completeOrder(Order order) async{
-    await order_repo.completeOrder(order);
-    emit(true);
+  Future<void> createOrder(Order order) async {
+    emit(OrderLoading());
+    try {
+      final orderId = await _orderRepository.createOrder(order);
+      emit(OrderSuccess(orderId));
+      getAllOrders(); 
+    } catch (e) {
+      emit(OrderError(e.toString()));
+    }
+  }
+
+  void getAllOrders() {
+    _orderRepository.getAllOrders().listen(
+          (orders) {
+        emit(OrderLoaded(orders));
+      },
+      onError: (error) {
+        emit(OrderError(error.toString()));
+      },
+    );
+  }
+
+  Future<void> fetchAddresses() async {
+    emit(OrderLoading());
+    try {
+      final addresses = await _addressRepository.getAddresses();
+      emit(OrderAddressesLoaded(addresses));
+    } catch (e) {
+      emit(OrderError('Adresler yüklenemedi: $e'));
+    }
   }
 }

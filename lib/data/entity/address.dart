@@ -1,13 +1,18 @@
 class Address {
-  final String id;
+  String id;
   final String title;
   final String details;
-  bool isSelected;
 
   Address({
     required this.id,
     required this.title,
     required this.details,
-    this.isSelected = false
   });
+
+  factory Address.fromJson(Map<String, dynamic> json, String key) {
+    return Address(
+        id: key,
+        title: json["title"] as String? ?? "",
+        details: json["details"] as String? ?? "");
+  }
 }

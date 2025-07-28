@@ -1,26 +1,79 @@
 import 'package:cup_coffe_case/data/entity/product.dart';
-import 'package:cup_coffe_case/data/mock/mock_products.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 
-class ProductRepository{
-  Future<List<Product>> getProducts() async{
-    return List<Product>.from(mockProducts);
+class ProductRepository {
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
+
+  Future<List<Product>> getProducts() async {
+    try {
+      final QuerySnapshot snapshot = await _firestore.collection('products').get();
+      return snapshot.docs.map((doc) {
+        return Product.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error getting products: $e');
+      return [];
+    }
   }
 
-  Future<List<Product>> getPopularProducts(String category) async{
-    return mockProducts.where((product) => product.isPopular == true && product.category.toLowerCase() == category.toLowerCase()).toList();
+  Future<List<Product>> getPopularProducts(String category) async {
+    try {
+      final QuerySnapshot snapshot = await _firestore
+          .collection('products')
+          .where('isPopular', isEqualTo: true)
+          .where('category', isEqualTo: category)
+          .get();
+      
+      return snapshot.docs.map((doc) {
+        return Product.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error getting popular products: $e');
+      return [];
+    }
   }
 
-  Future<List<Product>> getProductbyCategory(String category) async{
-    return mockProducts.where((product) => product.category.toLowerCase() == category.toLowerCase()).toList();
+  Future<List<Product>> getProductbyCategory(String category) async {
+    try {
+      final QuerySnapshot snapshot = await _firestore
+          .collection('products')
+          .where('category', isEqualTo: category)
+          .get();
+      
+      return snapshot.docs.map((doc) {
+        return Product.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).toList();
+    } catch (e) {
+      print('Error getting products by category: $e');
+      return [];
+    }
   }
 
   Future<List<Product>> searchProducts(String query) async {
-    return mockProducts
-        .where((product) => product.name.toLowerCase().contains(query.toLowerCase()))
-        .toList();
+    try {
+      final QuerySnapshot snapshot = await _firestore
+          .collection('products')
+          .get();
+      
+      return snapshot.docs.map((doc) {
+        return Product.fromJson(doc.data() as Map<String, dynamic>, doc.id);
+      }).where((product) => 
+        product.name.toLowerCase().contains(query.toLowerCase())
+      ).toList();
+    } catch (e) {
+      print('Error searching products: $e');
+      return [];
+    }
   }
 
   Future<void> toggleFavorite(Product product) async {
-    product.isFavorite = !(product.isFavorite ?? false);
+    try {
+      await _firestore
+          .collection('products')
+          .doc(product.id)
+          .update({'isFavorite': !product.isFavorite});
+    } catch (e) {
+      print('Error toggling favorite: $e');
+    }
   }
 }

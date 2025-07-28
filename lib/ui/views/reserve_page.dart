@@ -6,7 +6,6 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 import '../../data/entity/product.dart';
-import '../../data/mock/mock_products.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../cubit/reserve_cubit.dart';
 

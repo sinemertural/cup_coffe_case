@@ -77,7 +77,7 @@ class AddressCart extends StatelessWidget {
                             ),
                             const SizedBox(height: 4),
                             Text(
-                              address.details,
+                              address.details.replaceAll(r'\n', '\n'),
                               style: const TextStyle(
                                 fontSize: 14,
                                 color: AppColors.txtFieldColorDark,

@@ -1,6 +1,5 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/data/entity/product.dart';
-import 'package:cup_coffe_case/data/mock/mock_addresses.dart';
 import 'package:cup_coffe_case/ui/cubit/order_cubit.dart';
 import 'package:cup_coffe_case/ui/views/processing_page.dart';
 import 'package:cup_coffe_case/ui/widgets/order_widget/address_cart.dart';
@@ -12,6 +11,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../data/entity/order.dart';
+import '../../data/state/order_state.dart';
 
 class OrderPage extends StatefulWidget {
   final Product product;
@@ -31,13 +31,14 @@ class _OrderPageState extends State<OrderPage> {
   void initState() {
     super.initState();
     product = widget.product;
+    context.read<OrderCubit>().fetchAddresses();
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<OrderCubit, bool>(
-      listener: (context, isCompleted) {
-        if (isCompleted) {
+    return BlocListener<OrderCubit, OrderState>(
+      listener: (context, state) {
+        if (state is OrderSuccess) {
           Navigator.push(
             context,
             MaterialPageRoute(
@@ -56,9 +57,19 @@ class _OrderPageState extends State<OrderPage> {
                 Navigator.pop(context);
               },
               textColor: Colors.black,
-              iconColor: Colors.black,
             ),
-            AddressCart(addresses: mockAddresses),
+            BlocBuilder<OrderCubit, OrderState>(
+              builder: (context, state) {
+                if (state is OrderLoading) {
+                  return const Center(child: CircularProgressIndicator());
+                } else if (state is OrderAddressesLoaded) {
+                  return AddressCart(addresses: state.addresses);
+                } else if (state is OrderError) {
+                  return Center(child: Text(state.message));
+                }
+                return const SizedBox.shrink();
+              },
+            ),
             const SizedBox(height: 40,),
             CoffeOrderCard(
               product: product,
@@ -84,15 +95,15 @@ class _OrderPageState extends State<OrderPage> {
                     padding: const EdgeInsets.symmetric(vertical: 15),
                   ),
                   onPressed: () {
-                    final orderRepo = context.read<OrderCubit>().order_repo;
-                    final total = orderRepo.calculateTotal(product);
+                    final total = (product.price * product.quantity) - product.discount + product.delivery;
                     final order = Order(
-                      id: UniqueKey().toString(),
+                      user_id: "user123",
+                      id: "",
                       product: product,
                       date: DateTime.now(),
                       total: total,
                     );
-                    context.read<OrderCubit>().completeOrder(order);
+                    context.read<OrderCubit>().createOrder(order);
                   },
                   child: const Text(
                     "Pay now",
