@@ -39,7 +39,7 @@ class OrderCubit extends Cubit<OrderState> {
       final addresses = await _addressRepository.getAddresses();
       emit(OrderAddressesLoaded(addresses));
     } catch (e) {
-      emit(OrderError('Adresler yüklenemedi: $e'));
+      emit(OrderError('Addresses could not be loaded: $e'));
     }
   }
 }

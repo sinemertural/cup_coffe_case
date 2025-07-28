@@ -46,7 +46,6 @@ class _BasePageState extends State<BasePage> {
                   padding: EdgeInsets.only(top: 20),
                   child: BottomNavigationBar(
                     backgroundColor: Colors.transparent,
-                    // çünkü dış container zaten beyaz
                     type: BottomNavigationBarType.fixed,
                     elevation: 0,
                     items: const [

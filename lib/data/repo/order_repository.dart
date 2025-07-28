@@ -12,7 +12,7 @@ class OrderRepository {
       final docRef = await _firestore.collection('orders').add(order.toJson());
       return docRef.id;
     }catch(e){
-      throw Exception("Sipariş Oluşturulamadı : $e");
+      throw Exception("Order could not be created : $e");
     }
   }
 
