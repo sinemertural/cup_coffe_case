@@ -7,11 +7,19 @@ import '../../../data/entity/product.dart';
 class CoffeOrderCard extends StatefulWidget {
   final Product product;
   final void Function(int)? onQuantityChanged;
+  final String selectedSize;
+  final List<String> selectedExtras;
+  final void Function(String)? onSizeChanged;
+  final void Function(List<String>)? onExtrasChanged;
 
   const CoffeOrderCard({
     super.key,
     required this.product,
     this.onQuantityChanged,
+    required this.selectedSize,
+    required this.selectedExtras,
+    this.onSizeChanged,
+    this.onExtrasChanged,
   });
 
   @override
@@ -39,13 +47,7 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
   }
 
   String get selectedSizeText {
-    if (widget.product.sizes.isNotEmpty) {
-      if (widget.product.extras != null && widget.product.extras.isNotEmpty) {
-        return widget.product.sizes.length > 1 ? widget.product.sizes[1] : widget.product.sizes[0];
-      }
-      return widget.product.sizes.length > 1 ? widget.product.sizes[1] : widget.product.sizes[0];
-    }
-    return '';
+    return widget.selectedSize.isNotEmpty ? widget.selectedSize : '';
   }
 
   String get orderMainText {
@@ -96,11 +98,11 @@ class _CoffeOrderCardState extends State<CoffeOrderCard> {
                     color: AppColors.txtFieldColorDark
                   ),
                 ),
-                if (widget.product.extras.isNotEmpty)
+                if (widget.selectedExtras.isNotEmpty)
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      children: widget.product.extras.map((extra) =>
+                      children: widget.selectedExtras.map((extra) =>
                         Text(
                           extra,
                           style: TextStyle(

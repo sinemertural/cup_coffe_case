@@ -7,13 +7,17 @@ class Order {
   final Product product;
   final DateTime date;
   final double total;
+  final String selectedSize;
+  final List<String> selectedExtras;
 
   Order({
     required this.id,
     required this.user_id,
     required this.product,
     required this.date,
-    required this.total
+    required this.total,
+    required this.selectedSize,
+    required this.selectedExtras,
   });
 
   //read order from firebase
@@ -23,7 +27,9 @@ class Order {
         user_id: json['user_id'] as String? ?? "",
         product: Product.fromJson(json['product'] as Map<String , dynamic>, ''),
         date: (json['date'] as Timestamp).toDate(),
-      total: (json['total'] as num).toDouble(),
+        total: (json['total'] as num).toDouble(),
+        selectedSize: json['selectedSize'] as String? ?? "",
+        selectedExtras: List<String>.from(json['selectedExtras'] as List? ?? []),
     );
   }
 
@@ -34,6 +40,8 @@ class Order {
       'product': product.toJson(),
       'date': date,
       'total': total,
+      'selectedSize': selectedSize,
+      'selectedExtras': selectedExtras,
     };
   }
 }

@@ -26,11 +26,17 @@ class OrderPage extends StatefulWidget {
 
 class _OrderPageState extends State<OrderPage> {
   late Product product;
+  String selectedSize = "";
+  List<String> selectedExtras = [];
 
   @override
   void initState() {
     super.initState();
     product = widget.product;
+    if (product.sizes.isNotEmpty) {
+      selectedSize = product.sizes.length > 1 ? product.sizes[1] : product.sizes[0];
+    }
+    selectedExtras = List.from(product.extras);
     context.read<OrderCubit>().fetchAddresses();
   }
 
@@ -73,9 +79,21 @@ class _OrderPageState extends State<OrderPage> {
             const SizedBox(height: 40,),
             CoffeOrderCard(
               product: product,
+              selectedSize: selectedSize,
+              selectedExtras: selectedExtras,
               onQuantityChanged: (newQuantity) {
                 setState(() {
                   product.quantity = newQuantity;
+                });
+              },
+              onSizeChanged: (newSize) {
+                setState(() {
+                  selectedSize = newSize;
+                });
+              },
+              onExtrasChanged: (newExtras) {
+                setState(() {
+                  selectedExtras = newExtras;
                 });
               },
             ),
@@ -102,6 +120,8 @@ class _OrderPageState extends State<OrderPage> {
                       product: product,
                       date: DateTime.now(),
                       total: total,
+                      selectedSize: selectedSize,
+                      selectedExtras: selectedExtras,
                     );
                     context.read<OrderCubit>().createOrder(order);
                   },

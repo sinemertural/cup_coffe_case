@@ -9,6 +9,7 @@ class Address {
     required this.details,
   });
 
+  //read
   factory Address.fromJson(Map<String, dynamic> json, String key) {
     return Address(
         id: key,

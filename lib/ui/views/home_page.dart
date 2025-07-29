@@ -89,7 +89,6 @@ class _HomePageState extends State<HomePage> {
                       ],
                     ),
                     const SizedBox(height: 30),
-                    // Arama kutusu
                     Container(
                       padding: const EdgeInsets.symmetric(horizontal: 20),
                       decoration: BoxDecoration(
@@ -215,7 +214,6 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
               ),
-
             ],
           );
         },

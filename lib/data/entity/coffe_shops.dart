@@ -20,7 +20,8 @@ class CoffeShops {
     required this.description,
     required this.title
   });
-  
+
+  //read
   factory CoffeShops.fromJson(Map<String, dynamic> json, String key) {
     return CoffeShops(
       id: key,
