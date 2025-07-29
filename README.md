@@ -42,9 +42,22 @@ Modern ve kullanıcı dostu bir kahve sipariş uygulaması. Flutter ve Firebase 
 ### Development Tools
 - **Custom Fonts (Poppins & ComicNeue)**
 
-## 🧠 Mimari
+### 📦 Firestore Veritabanı
+##☕ Kahve ve Kafe Verileri##
+- Firestore'dan kafe ve ürün listeleri okunur.
+- Veriler kategori bazlı filtrelenir
+##📍 Adres Yönetimi##
+- Kullanıcı adresleri Firestore'a kaydedilir.
+##🛍️ Sipariş Yönetimi##
+- Kullanıcının oluşturduğu siparişler Firestore'a yazılır.
+- Sipariş detayları ve sepet içeriği saklanır.
+##❤️ Favoriler##
+- Kullanıcılar ürünleri favorilere ekleyebilir.
+- Favori listesi Firebase ile senkronize edilir.
 
-### Clean Architecture
+
+
+### Mimari
 - **Entity Layer** - Veri modelleri
 - **Repository Layer** - Veri erişim katmanı
 - **State Management** - UI state yönetimi
