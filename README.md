@@ -66,6 +66,10 @@ Modern ve kullanıcı dostu bir kahve sipariş uygulaması. Flutter ve Firebase 
 - **State Management** - UI state yönetimi
 - **UI Layer** - Kullanıcı arayüzü
 
+- Firebase kurulumu ve uygulama tanıtımı için aşağıdaki bağlantıyı ziyaret edebilirsiniz:  
+🔗 [Firebase ve Uygulama Gösterimi](https://drive.google.com/file/d/1kIyW8GfREKK-22NIxxcymc7pmYHOYoR2/view?usp=sharing)
+
+
 ## ⚙️ Kurulum
 - git clone https://github.com/sinemertural/cup_coffe_case.git
 - cd cup_coffe_case
