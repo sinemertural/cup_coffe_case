@@ -33,6 +33,7 @@ Modern ve kullanıcı dostu bir kahve sipariş uygulaması. Flutter ve Firebase 
 ### Backend & Database
 - **Firebase Core**
 - **Cloud Firestore**
+- **Firestore Database**
 
 ### State Management
 - **BLoC/Cubit Pattern**
