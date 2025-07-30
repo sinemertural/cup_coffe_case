@@ -1,5 +1,6 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/ui/views/details_page.dart';
+import 'package:cup_coffe_case/ui/views/admin_coupon_page.dart';
 import 'package:cup_coffe_case/ui/widgets/home_widget/coffee_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -27,6 +28,23 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      appBar: AppBar(
+        backgroundColor: Colors.transparent,
+        elevation: 0,
+        actions: [
+          IconButton(
+            icon: Icon(Icons.admin_panel_settings, color: Colors.black),
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => AdminCouponPage(),
+                ),
+              );
+            },
+          ),
+        ],
+      ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           if (state.products.isEmpty) {

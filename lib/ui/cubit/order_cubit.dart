@@ -25,8 +25,8 @@ class OrderCubit extends Cubit<OrderState> {
   void getAllOrders() {
     _orderRepository.getAllOrders().listen(
           (orders) {
-        emit(OrderLoaded(orders));
-      },
+          emit(OrderLoaded(orders));
+        },
       onError: (error) {
         emit(OrderError(error.toString()));
       },
