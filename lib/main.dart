@@ -1,4 +1,6 @@
+import 'package:cup_coffe_case/data/repo/auth_repository.dart';
 import 'package:cup_coffe_case/data/repo/coupon_repository.dart';
+import 'package:cup_coffe_case/ui/cubit/auth_cubit.dart';
 import 'package:cup_coffe_case/ui/cubit/base_cubit.dart';
 import 'package:cup_coffe_case/ui/cubit/coupon_cubit.dart';
 import 'package:cup_coffe_case/ui/cubit/home_cubit.dart';
@@ -28,7 +30,8 @@ class MyApp extends StatelessWidget {
         BlocProvider(create: (context) => HomeCubit()),
         BlocProvider(create: (context) => ReserveCubit()),
         BlocProvider(create: (context) => OrderCubit()),
-        BlocProvider(create: (_) => CouponCubit(CouponRepository()))
+        BlocProvider(create: (_) => CouponCubit(CouponRepository())),
+        BlocProvider(create: (context) => AuthCubit(AuthRepository()))
       ],
       child: MaterialApp(
         title: 'Flutter Demo',

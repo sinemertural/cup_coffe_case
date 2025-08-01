@@ -1,5 +1,6 @@
 import 'dart:async';
 import 'package:cup_coffe_case/ui/views/base_page.dart';
+import 'package:cup_coffe_case/ui/views/login_page.dart';
 import 'package:flutter/material.dart';
 
 import '../../core/theme/app_colors.dart';
@@ -19,7 +20,7 @@ class _SplashScreenState extends State<SplashScreen> {
     Timer(const Duration(seconds: 2), () {
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const BasePage()),
+        MaterialPageRoute(builder: (context) => LoginPage()),
       );
     });
   }

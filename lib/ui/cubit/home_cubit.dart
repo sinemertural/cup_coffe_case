@@ -12,13 +12,30 @@ class HomeCubit extends Cubit<HomeState> {
   final coffeeShopsRepo = CoffeeShopsRepository();
 
   Future<void> loadPopularProducts(String category) async {
-    var popularProducts = await productRepo.getPopularProducts(category);
-    emit(state.copyWith(products: popularProducts));
+    print('🔄 Loading popular products for category: $category');
+    try {
+      var popularProducts = await productRepo.getPopularProducts(category);
+      print('✅ Loaded ${popularProducts.length} popular products');
+      for (var product in popularProducts) {
+        print('  - ${product.name} (Popular: ${product.isPopular}, Category: ${product.category})');
+      }
+      emit(state.copyWith(products: popularProducts));
+    } catch (e) {
+      print('❌ Error loading popular products: $e');
+      emit(state.copyWith(products: []));
+    }
   }
 
   Future<void> loadNearCoffeeShops() async {
-    var nearCoffeShops = await coffeeShopsRepo.getNearCoffeeShops();
-    emit(state.copyWith(nearCoffeeShops: nearCoffeShops));
+    print('🔄 Loading near coffee shops');
+    try {
+      var nearCoffeShops = await coffeeShopsRepo.getNearCoffeeShops();
+      print('✅ Loaded ${nearCoffeShops.length} near coffee shops');
+      emit(state.copyWith(nearCoffeeShops: nearCoffeShops));
+    } catch (e) {
+      print('❌ Error loading near coffee shops: $e');
+      emit(state.copyWith(nearCoffeeShops: []));
+    }
   }
 
   Future<void> searchProducts(String query) async {
