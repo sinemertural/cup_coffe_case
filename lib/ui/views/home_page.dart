@@ -1,6 +1,8 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
+import 'package:cup_coffe_case/data/state/auth_state.dart';
+import 'package:cup_coffe_case/ui/cubit/auth_cubit.dart';
 import 'package:cup_coffe_case/ui/views/details_page.dart';
-import 'package:cup_coffe_case/ui/views/admin_coupon_page.dart';
+import 'package:cup_coffe_case/ui/views/admin/admin_coupon_page.dart';
 import 'package:cup_coffe_case/ui/widgets/home_widget/coffee_card.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,22 +30,35 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
-      appBar: AppBar(
-        backgroundColor: Colors.transparent,
-        elevation: 0,
-        actions: [
-          IconButton(
-            icon: Icon(Icons.admin_panel_settings, color: Colors.black),
-            onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => AdminCouponPage(),
-                ),
-              );
-            },
-          ),
-        ],
+      appBar: PreferredSize(
+        preferredSize: const Size.fromHeight(kToolbarHeight),
+        child: BlocBuilder<AuthCubit, AuthState>(
+          builder: (context, state) {
+            if(state is AuthAuthenticated){
+              final user = state.user;
+              if(user.isAdmin){
+                return AppBar(
+                  backgroundColor: Colors.transparent,
+                  elevation: 0,
+                  actions: [
+                    IconButton(
+                      icon: Icon(Icons.admin_panel_settings, color: Colors.black),
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => const AdminCouponPage(),
+                          ),
+                        );
+                      },
+                    ),
+                  ],
+                );
+              }
+            }
+            return const SizedBox.shrink(); // Admin değilse boş widget
+          },
+        ),
       ),
       body: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {

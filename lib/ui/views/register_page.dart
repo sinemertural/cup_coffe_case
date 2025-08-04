@@ -1,41 +1,43 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
-import 'package:cup_coffe_case/ui/views/register_page.dart';
-import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:cup_coffe_case/data/state/auth_state.dart';
 import 'package:cup_coffe_case/ui/cubit/auth_cubit.dart';
 import 'package:cup_coffe_case/ui/views/base_page.dart';
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
-  bool _isPasswordVisible = false;
+class _RegisterPageState extends State<RegisterPage> {
   bool _isLoading = false;
+  bool _isPasswordVisible = false;
+  bool _isConfirmPasswordVisible = false;
   final _formKey = GlobalKey<FormState>();
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-
-  void _handleLogin() {
-    if (_formKey.currentState!.validate()) {
-      setState(() => _isLoading = true);
-      context.read<AuthCubit>().signIn(
-        _emailController.text.trim(),
-        _passwordController.text,
-      );
-    }
-  }
+  final _confirmPasswordController = TextEditingController();
 
   @override
   void dispose() {
     _emailController.dispose();
     _passwordController.dispose();
+    _confirmPasswordController.dispose();
     super.dispose();
+  }
+
+  void _handleRegister() {
+    if (_formKey.currentState!.validate()) {
+      setState(() => _isLoading = true);
+      context.read<AuthCubit>().signUp(
+        _emailController.text.trim(),
+        _passwordController.text,
+      );
+    }
   }
 
   @override
@@ -61,7 +63,6 @@ class _LoginPageState extends State<LoginPage> {
               },
             ),
           ),
-
           BlocListener<AuthCubit, AuthState>(
             listener: (context, state) {
               if (state is AuthAuthenticated) {
@@ -105,14 +106,14 @@ class _LoginPageState extends State<LoginPage> {
                             shape: BoxShape.circle,
                             boxShadow: [
                               BoxShadow(
-                                  color: Colors.black12,
-                                  blurRadius: 12,
-                                  spreadRadius: 2,
-                                  offset: Offset(0, 4)
+                                color: Colors.black12,
+                                blurRadius: 12,
+                                spreadRadius: 2,
+                                offset: const Offset(0, 4),
                               )
-                            ]
+                            ],
                           ),
-                          child: Icon(
+                          child: const Icon(
                             Icons.coffee,
                             color: Colors.white,
                             size: 65,
@@ -123,19 +124,25 @@ class _LoginPageState extends State<LoginPage> {
 
                         Column(
                           children: [
-                            Text("Welcome" , style: TextStyle(
-                            color: AppColors.primary,
-                            fontFamily: "Poppins",
-                            fontWeight: FontWeight.w700,
-                            fontSize: 45,
-                          ),),
-                            SizedBox(height: 4,),
-                            Text("Log in to your account" , style: TextStyle(
-                              color: AppColors.txtFieldColorDark,
-                              fontFamily: "Poppins",
-                              fontSize: 20,
-                            ),),
-                          ]
+                            Text(
+                              "Welcome",
+                              style: TextStyle(
+                                color: AppColors.primary,
+                                fontFamily: "Poppins",
+                                fontWeight: FontWeight.w700,
+                                fontSize: 45,
+                              ),
+                            ),
+                            const SizedBox(height: 4),
+                            Text(
+                              "Create your account",
+                              style: TextStyle(
+                                color: AppColors.txtFieldColorDark,
+                                fontFamily: "Poppins",
+                                fontSize: 20,
+                              ),
+                            ),
+                          ],
                         ),
 
                         const SizedBox(height: 40),
@@ -150,9 +157,9 @@ class _LoginPageState extends State<LoginPage> {
                                 color: Colors.black12,
                                 blurRadius: 12,
                                 spreadRadius: 2,
-                                offset: Offset(0, 4)
+                                offset: const Offset(0, 4),
                               )
-                            ]
+                            ],
                           ),
                           child: Form(
                             key: _formKey,
@@ -166,12 +173,16 @@ class _LoginPageState extends State<LoginPage> {
                                     controller: _emailController,
                                     keyboardType: TextInputType.emailAddress,
                                     decoration: InputDecoration(
-                                      prefixIcon: Icon(Icons.email_outlined ,size: 23 , color: AppColors.txtFieldColorDark,),
-                                      labelText: 'Email' ,
+                                      prefixIcon: Icon(
+                                        Icons.email_outlined,
+                                        size: 23,
+                                        color: AppColors.txtFieldColorDark,
+                                      ),
+                                      labelText: 'Email',
                                       labelStyle: TextStyle(
                                         fontFamily: "Poppins",
                                         fontSize: 20,
-                                        color: AppColors.txtFieldColorDark
+                                        color: AppColors.txtFieldColorDark,
                                       ),
                                       filled: true,
                                       fillColor: AppColors.textFieldColor,
@@ -182,7 +193,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Email adresi gerekli';
+                                        return "Email adresi gerekli";
                                       }
                                       if (!RegExp(r'^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$')
                                           .hasMatch(value)) {
@@ -201,12 +212,14 @@ class _LoginPageState extends State<LoginPage> {
                                     decoration: InputDecoration(
                                       prefixIcon: Icon(
                                         Icons.lock_outline,
-                                        size: 23,
                                         color: AppColors.txtFieldColorDark,
+                                        size: 23,
                                       ),
                                       suffixIcon: IconButton(
                                         icon: Icon(
-                                          _isPasswordVisible ? Icons.visibility_off : Icons.visibility,
+                                          _isPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
                                           color: AppColors.txtFieldColorDark,
                                           size: 22,
                                         ),
@@ -216,11 +229,11 @@ class _LoginPageState extends State<LoginPage> {
                                           });
                                         },
                                       ),
-                                      labelText: 'Password',
+                                      labelText: "Password",
                                       labelStyle: TextStyle(
-                                        fontFamily: "Poppins",
-                                        fontSize: 20,
                                         color: AppColors.txtFieldColorDark,
+                                        fontSize: 20,
+                                        fontFamily: "Poppins",
                                       ),
                                       filled: true,
                                       fillColor: AppColors.textFieldColor,
@@ -231,7 +244,7 @@ class _LoginPageState extends State<LoginPage> {
                                     ),
                                     validator: (value) {
                                       if (value == null || value.isEmpty) {
-                                        return 'Şifre gerekli';
+                                        return "Şifre gerekli";
                                       }
                                       if (value.length < 6) {
                                         return 'Şifre en az 6 karakter olmalı';
@@ -240,84 +253,131 @@ class _LoginPageState extends State<LoginPage> {
                                     },
                                   ),
                                 ),
-                                const SizedBox(height: 30),
+                                const SizedBox(height: 20),
 
                                 Padding(
                                   padding: const EdgeInsets.symmetric(horizontal: 24.0),
+                                  child: TextFormField(
+                                    controller: _confirmPasswordController,
+                                    obscureText: !_isConfirmPasswordVisible,
+                                    decoration: InputDecoration(
+                                      prefixIcon: Icon(
+                                        Icons.lock_outline,
+                                        color: AppColors.txtFieldColorDark,
+                                        size: 23,
+                                      ),
+                                      suffixIcon: IconButton(
+                                        icon: Icon(
+                                          _isConfirmPasswordVisible
+                                              ? Icons.visibility_off
+                                              : Icons.visibility,
+                                          color: AppColors.txtFieldColorDark,
+                                          size: 22,
+                                        ),
+                                        onPressed: () {
+                                          setState(() {
+                                            _isConfirmPasswordVisible =
+                                                !_isConfirmPasswordVisible;
+                                          });
+                                        },
+                                      ),
+                                      labelText: "Confirm Password",
+                                      labelStyle: TextStyle(
+                                        color: AppColors.txtFieldColorDark,
+                                        fontSize: 20,
+                                        fontFamily: "Poppins",
+                                      ),
+                                      filled: true,
+                                      fillColor: AppColors.textFieldColor,
+                                      border: OutlineInputBorder(
+                                        borderRadius: BorderRadius.circular(20),
+                                        borderSide: BorderSide.none,
+                                      ),
+                                    ),
+                                    validator: (value) {
+                                      if (value == null || value.isEmpty) {
+                                        return "Şifre onayı gerekli";
+                                      }
+                                      if (value != _passwordController.text) {
+                                        return 'Şifreler eşleşmiyor';
+                                      }
+                                      return null;
+                                    },
+                                  ),
+                                ),
+                                const SizedBox(height: 30),
+
+                                // Register Button
+                                Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 24.0),
                                   child: SizedBox(
-                                    height: 50,
+                                    height: 55,
                                     child: ElevatedButton(
-                                      onPressed: _isLoading ? null : _handleLogin,
+                                      onPressed: _isLoading ? null : _handleRegister,
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: AppColors.primary,
                                         shape: RoundedRectangleBorder(
                                           borderRadius: BorderRadius.circular(20),
                                         ),
+                                        elevation: 0,
                                       ),
                                       child: _isLoading
-                                          ? SizedBox(
-                                              width: 24,
-                                              height: 24,
+                                          ? const SizedBox(
+                                              height: 20,
+                                              width: 20,
                                               child: CircularProgressIndicator(
-                                                color: Colors.white,
                                                 strokeWidth: 2,
+                                                valueColor: AlwaysStoppedAnimation<Color>(
+                                                    Colors.white),
                                               ),
                                             )
                                           : const Text(
-                                              'Log In',
+                                              "Register",
                                               style: TextStyle(
-                                                  fontSize: 20,
-                                                  fontWeight: FontWeight.w600,
-                                                  fontFamily: "Poppins"
-                                                  , color: Colors.white
+                                                color: Colors.white,
+                                                fontSize: 18,
+                                                fontFamily: "Poppins",
+                                                fontWeight: FontWeight.w600,
                                               ),
                                             ),
                                     ),
                                   ),
                                 ),
 
-                                SizedBox(height: 12,),
+                                const SizedBox(height: 20),
 
-                                Align(
-                                  alignment: Alignment.center,
-                                  child: Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      Text(
-                                        "Don't have an account? ",
+                                // Login Link
+                                Row(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Text(
+                                      "Already have an account? ",
+                                      style: TextStyle(
+                                        color: AppColors.txtFieldColorDark,
+                                        fontFamily: "Poppins",
+                                        fontSize: 16,
+                                      ),
+                                    ),
+                                    GestureDetector(
+                                      onTap: () {
+                                        Navigator.pop(context);
+                                      },
+                                      child: Text(
+                                        "Log In",
                                         style: TextStyle(
+                                          color: AppColors.primary,
                                           fontFamily: "Poppins",
-                                          fontSize: 15,
-                                          color: AppColors.txtFieldColorDark,
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.w600,
                                         ),
                                       ),
-                                      TextButton(
-                                        onPressed: () {
-                                          Navigator.push(context, MaterialPageRoute(builder: (context) =>
-                                          RegisterPage()));
-                                        },
-                                        style: TextButton.styleFrom(
-                                          padding: EdgeInsets.zero,
-                                        ),
-                                        child: Text(
-                                          "Sign up",
-                                          style: TextStyle(
-                                            fontFamily: "Poppins",
-                                            fontSize: 15,
-                                            fontWeight: FontWeight.w600,
-                                            color: AppColors.primary,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                )
+                                    ),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
                         ),
-
-                        const SizedBox(height: 40),
                       ],
                     ),
                   ),

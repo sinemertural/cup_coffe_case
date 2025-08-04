@@ -45,9 +45,14 @@ class HomeCubit extends Cubit<HomeState> {
 
   Future<void> toggleFavorite(Product product) async {
     await productRepo.toggleFavorite(product);
-    final updatedProducts = await productRepo.getProducts();
-    emit(state.copyWith(products: updatedProducts));
-    final favorites = updatedProducts.where((p) => p.isFavorite).toList();
+    
+    // Reload current products to reflect favorite changes
+    if (state.products.isNotEmpty) {
+      final updatedProducts = await productRepo.getPopularProducts(state.products.first.category);
+      emit(state.copyWith(products: updatedProducts));
+    }
+    
+    final favorites = await productRepo.getUserFavorites();
     if (favorites.isNotEmpty) {
       print('Favorites products:');
       for (var fav in favorites) {
@@ -55,6 +60,16 @@ class HomeCubit extends Cubit<HomeState> {
       }
     } else {
       print('No favorite product:');
+    }
+  }
+
+  Future<void> loadUserFavorites() async {
+    try {
+      final favorites = await productRepo.getUserFavorites();
+      emit(state.copyWith(products: favorites));
+    } catch (e) {
+      print('❌ Error loading user favorites: $e');
+      emit(state.copyWith(products: []));
     }
   }
 }

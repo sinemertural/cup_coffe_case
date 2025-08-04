@@ -7,20 +7,34 @@ import 'package:cup_coffe_case/data/entity/product.dart';
 class CoffeeCard extends StatelessWidget {
   final Product product;
   final VoidCallback onTap;
+  final double? width;
+  final double? height;
+  final double? imageHeight;
+  final double? imageWidth;
 
   const CoffeeCard({
     super.key,
     required this.product,
     required this.onTap,
+    this.width,
+    this.height,
+    this.imageHeight,
+    this.imageWidth,
   });
 
   @override
   Widget build(BuildContext context) {
+    // Default values for home page
+    final cardWidth = width ?? 261;
+    final cardHeight = height ?? 245;
+    final imgWidth = imageWidth ?? 261;
+    final imgHeight = imageHeight ?? 180;
+
     return GestureDetector(
       onTap: onTap,
         child: SizedBox(
-          width: 261,
-          height: 245,
+          width: cardWidth,
+          height: cardHeight,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -30,8 +44,8 @@ class CoffeeCard extends StatelessWidget {
                     borderRadius: BorderRadius.circular(30),
                     child: Image.asset(
                       product.imageUrl,
-                      width: 261,
-                      height: 180,
+                      width: imgWidth,
+                      height: imgHeight,
                       fit: BoxFit.cover,
                       alignment: const Alignment(0, 0.2),
                     ),
@@ -81,7 +95,7 @@ class CoffeeCard extends StatelessWidget {
 
                   Positioned(
                     left: 11,
-                    top: 148,
+                    top: imgHeight - 32, // Adjusted for dynamic image height
                     child: Row(
                       children: [
                         Icon(Icons.access_time, size: 16, color: Colors.white ),
@@ -99,8 +113,8 @@ class CoffeeCard extends StatelessWidget {
                   ),
 
                   Positioned(
-                    top: 147,
-                    left: 209,
+                    top: imgHeight - 33, // Adjusted for dynamic image height
+                    left: imgWidth - 52, // Adjusted for dynamic image width
                     child: Row(
                       children: [
                         Icon(Icons.star, size: 16, color: Color(0xFFFFDA58)),

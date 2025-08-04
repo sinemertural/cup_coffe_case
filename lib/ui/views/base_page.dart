@@ -1,6 +1,8 @@
 import 'package:cup_coffe_case/core/theme/app_colors.dart';
 import 'package:cup_coffe_case/ui/cubit/base_cubit.dart';
+import 'package:cup_coffe_case/ui/views/favorites_page.dart';
 import 'package:cup_coffe_case/ui/views/home_page.dart';
+import 'package:cup_coffe_case/ui/views/profile_page.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -17,7 +19,13 @@ class _BasePageState extends State<BasePage> {
   Widget build(BuildContext context) {
     return BlocBuilder<BaseCubit, int>(
         builder: (context, selectedPage) {
-          final pages = [const HomePage()];
+          final pages = [
+            const HomePage(),
+            const HomePage(),
+            const HomePage(),
+            const FavoritesPage(),
+            const ProfilePage(),
+          ];
 
           return Scaffold(
             body: pages[selectedPage],
@@ -50,43 +58,23 @@ class _BasePageState extends State<BasePage> {
                     elevation: 0,
                     items: const [
                       BottomNavigationBarItem(
-                        icon: Image(
-                            image: AssetImage("assets/icons/vector.png"),
-                            width: 24,
-                            height: 24,
-                          ),
+                        icon: Icon(Icons.home_filled, size: 28,),
                         label: "",
                       ),
                       BottomNavigationBarItem(
-                        icon: Image(
-                          image: AssetImage("assets/icons/shopping-bag.png"),
-                          width: 24,
-                          height: 24,
-                        ),
+                        icon: Icon(Icons.shopping_bag ,size: 28,),
                         label: "",
                       ),
                       BottomNavigationBarItem(
-                        icon: Image(
-                          image: AssetImage("assets/icons/map-pin.png"),
-                          width: 24,
-                          height: 24,
-                        ),
+                        icon: Icon(Icons.location_on ,size: 28,),
                         label: "",
                       ),
                       BottomNavigationBarItem(
-                        icon: Image(
-                          image: AssetImage("assets/icons/heart.png"),
-                          width: 24,
-                          height: 24,
-                        ),
+                        icon: Icon(Icons.favorite ,size: 28,),
                         label: "",
                       ),
                       BottomNavigationBarItem(
-                        icon: Image(
-                          image: AssetImage("assets/icons/user.png"),
-                          width: 24,
-                          height: 24,
-                        ),
+                        icon: Icon(Icons.person, size: 28,),
                         label: "",
                       ),
                     ],
@@ -94,7 +82,7 @@ class _BasePageState extends State<BasePage> {
                     selectedItemColor: AppColors.primary_green,
                     onTap: (index) {
                       context.read<BaseCubit>().changePage(index);
-                    },
+                    }
                   ),
                 ),
               ),

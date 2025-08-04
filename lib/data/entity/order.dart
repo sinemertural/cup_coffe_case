@@ -4,6 +4,8 @@ import 'package:cup_coffe_case/data/entity/product.dart';
 class Order {
   String id;
   final String user_id;
+  final String userId;
+  final String userEmail;
   final Product product;
   final DateTime date;
   final double total;
@@ -13,6 +15,8 @@ class Order {
   Order({
     required this.id,
     required this.user_id,
+    this.userId = '',
+    this.userEmail = '',
     required this.product,
     required this.date,
     required this.total,
@@ -25,6 +29,8 @@ class Order {
     return Order(
         id: key,
         user_id: json['user_id'] as String? ?? "",
+        userId: json['userId'] as String? ?? "",
+        userEmail: json['userEmail'] as String? ?? "",
         product: Product.fromJson(json['product'] as Map<String , dynamic>, ''),
         date: (json['date'] as Timestamp).toDate(),
         total: (json['total'] as num).toDouble(),
@@ -37,11 +43,37 @@ class Order {
   Map<String, dynamic> toJson() {
     return {
       'user_id': user_id,
+      'userId': userId,
+      'userEmail': userEmail,
       'product': product.toJson(),
       'date': date,
       'total': total,
       'selectedSize': selectedSize,
       'selectedExtras': selectedExtras,
     };
+  }
+
+  Order copyWith({
+    String? id,
+    String? user_id,
+    String? userId,
+    String? userEmail,
+    Product? product,
+    DateTime? date,
+    double? total,
+    String? selectedSize,
+    List<String>? selectedExtras,
+  }) {
+    return Order(
+      id: id ?? this.id,
+      user_id: user_id ?? this.user_id,
+      userId: userId ?? this.userId,
+      userEmail: userEmail ?? this.userEmail,
+      product: product ?? this.product,
+      date: date ?? this.date,
+      total: total ?? this.total,
+      selectedSize: selectedSize ?? this.selectedSize,
+      selectedExtras: selectedExtras ?? this.selectedExtras,
+    );
   }
 }

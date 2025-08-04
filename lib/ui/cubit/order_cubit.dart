@@ -16,12 +16,24 @@ class OrderCubit extends Cubit<OrderState> {
     try {
       final orderId = await _orderRepository.createOrder(order);
       emit(OrderSuccess(orderId));
-      getAllOrders(); 
+      getUserOrders(); 
     } catch (e) {
       emit(OrderError(e.toString()));
     }
   }
 
+  void getUserOrders() {
+    _orderRepository.getUserOrders().listen(
+          (orders) {
+          emit(OrderLoaded(orders));
+        },
+      onError: (error) {
+        emit(OrderError(error.toString()));
+      },
+    );
+  }
+
+  // Admin için tüm siparişleri getir
   void getAllOrders() {
     _orderRepository.getAllOrders().listen(
           (orders) {
