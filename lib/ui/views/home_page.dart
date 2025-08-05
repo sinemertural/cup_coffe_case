@@ -12,6 +12,8 @@ import '../cubit/base_cubit.dart';
 import '../../data/state/home_state.dart';
 import '../widgets/home_widget/nearest_coffees_cart.dart';
 import 'nearby_cafes_page.dart';
+import 'chat_page.dart';
+import '../cubit/chat_cubit.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -48,6 +50,24 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.background,
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          context.read<ChatCubit>().clearChat();
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => const ChatPage(),
+            ),
+          );
+        },
+        backgroundColor: AppColors.primary,
+        foregroundColor: Colors.white,
+        child:  Image.asset("assets/icons/support.png"),
+        elevation: 8,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(16),
+        ),
+      ),
       appBar: PreferredSize(
         preferredSize: const Size.fromHeight(kToolbarHeight),
         child: BlocBuilder<AuthCubit, AuthState>(
