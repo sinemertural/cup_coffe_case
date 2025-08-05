@@ -16,10 +16,24 @@ class FavoritesPage extends StatefulWidget {
 }
 
 class _FavoritesPageState extends State<FavoritesPage> {
+  bool _isLoading = true;
+
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().loadUserFavorites();
+    _loadFavorites();
+  }
+
+  Future<void> _loadFavorites() async {
+    setState(() {
+      _isLoading = true;
+    });
+    
+    await context.read<HomeCubit>().loadUserFavorites();
+    
+    setState(() {
+      _isLoading = false;
+    });
   }
   
   @override
@@ -37,76 +51,118 @@ class _FavoritesPageState extends State<FavoritesPage> {
             iconColor: Colors.black,
           ),
           Expanded(
-            child: BlocBuilder<HomeCubit, HomeState>(
-              builder: (context, state) {
-                if (state.products.isEmpty) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.favorite_border,
-                          size: 64,
-                          color: Colors.grey,
-                        ),
-                        SizedBox(height: 16),
-                        Text(
-                          "Henüz favorilenmiş ürün yok.",
-                          style: TextStyle(
-                            fontSize: 18,
-                            color: Colors.grey,
-                            fontFamily: "Poppins",
-                          ),
-                        ),
-                      ],
-                    ),
-                  );
-                }
-                return ListView.builder(
-                  padding: EdgeInsets.all(16),
-                  itemCount: state.products.length,
-                  itemBuilder: (context, index) {
-                    return Container(
-                      margin: EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(20),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
-                            blurRadius: 10,
-                            offset: Offset(0, 5),
-                            spreadRadius: 0,
-                          ),
-                        ],
+            child: _isLoading 
+              ? Center(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      CircularProgressIndicator(
+                        valueColor: AlwaysStoppedAnimation<Color>(AppColors.primary),
                       ),
-                      child: Padding(
-                        padding: EdgeInsets.all(16),
-                        child: Center(
-                        child: CoffeeCard(
-                          product: state.products[index],
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => DetailsPage(
-                                  product: state.products[index],
+                      SizedBox(height: 16),
+                      Text(
+                        "Favoriler yükleniyor...",
+                        style: TextStyle(
+                          fontSize: 16,
+                          color: Colors.grey,
+                          fontFamily: "Poppins",
+                        ),
+                      ),
+                    ],
+                  ),
+                )
+              : BlocBuilder<HomeCubit, HomeState>(
+                  builder: (context, state) {
+                    if (state.products.isEmpty) {
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: [
+                            Icon(
+                              Icons.favorite_border,
+                              size: 64,
+                              color: Colors.grey,
+                            ),
+                            SizedBox(height: 16),
+                            Text(
+                              "Henüz favorilenmiş ürün yok.",
+                              style: TextStyle(
+                                fontSize: 18,
+                                color: Colors.grey,
+                                fontFamily: "Poppins",
+                              ),
+                            ),
+                            SizedBox(height: 16),
+                            ElevatedButton(
+                              onPressed: () {
+                                _loadFavorites();
+                              },
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.primary,
+                                shape: RoundedRectangleBorder(
+                                  borderRadius: BorderRadius.circular(10),
                                 ),
                               ),
-                            );
-                          },
-                          width: double.infinity,
-                          height: 200, // Daha küçük card yüksekliği
-                          imageWidth: double.infinity,
-                          imageHeight: 140, // Daha küçük image yüksekliği
+                              child: Text(
+                                "Yenile",
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontFamily: "Poppins",
+                                ),
+                              ),
+                            ),
+                          ],
                         ),
-                      ),
+                      );
+                    }
+                    return RefreshIndicator(
+                      onRefresh: _loadFavorites,
+                      child: ListView.builder(
+                        padding: EdgeInsets.all(16),
+                        itemCount: state.products.length,
+                        itemBuilder: (context, index) {
+                          return Container(
+                            margin: EdgeInsets.all(16),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withOpacity(0.1),
+                                  blurRadius: 10,
+                                  offset: Offset(0, 5),
+                                  spreadRadius: 0,
+                                ),
+                              ],
+                            ),
+                            child: Padding(
+                              padding: EdgeInsets.all(16),
+                              child: Center(
+                              child: CoffeeCard(
+                                product: state.products[index],
+                                onTap: () {
+                                  Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => DetailsPage(
+                                        product: state.products[index],
+                                      ),
+                                    ),
+                                  );
+                                },
+                                width: double.infinity,
+                                height: 200, // Daha küçük card yüksekliği
+                                imageWidth: double.infinity,
+                                imageHeight: 140, // Daha küçük image yüksekliği
+                              ),
+                            ),
+                            ),
+                          );
+                        },
                       ),
                     );
                   },
-                );
-              },
-            ),
+                ),
           ),
         ],
       ),

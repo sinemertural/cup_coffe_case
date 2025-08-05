@@ -24,6 +24,7 @@ class _DetailsPageState extends State<DetailsPage> {
   int quantity = 1;
   Set<String> selectedExtras = {};
   String? selectedSize;
+  bool _isFavoriteLoading = false;
 
   void toggleExtra(String extra) {
     setState(() {
@@ -34,6 +35,37 @@ class _DetailsPageState extends State<DetailsPage> {
       }
     });
   }
+
+  Future<void> _toggleFavorite() async {
+    if (_isFavoriteLoading) return;
+    
+    setState(() {
+      _isFavoriteLoading = true;
+    });
+
+    try {
+      await context.read<HomeCubit>().toggleFavorite(widget.product);
+      
+      // Widget'ın favori durumunu güncelle
+      setState(() {
+        widget.product.isFavorite = !widget.product.isFavorite;
+      });
+    } catch (e) {
+      print('Error toggling favorite: $e');
+      // Hata durumunda kullanıcıya bilgi ver
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('Favori işlemi başarısız oldu'),
+          backgroundColor: Colors.red,
+        ),
+      );
+    } finally {
+      setState(() {
+        _isFavoriteLoading = false;
+      });
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,15 +94,22 @@ class _DetailsPageState extends State<DetailsPage> {
                   onBackPressed: () {
                     Navigator.pop(context);
                   },
-                  onActionPressed: () {
-                    setState(() {
-                      context.read<HomeCubit>().toggleFavorite(widget.product);
-                    });
-                  },
-                  actionIcon: Icon(
-                    widget.product.isFavorite ? Icons.favorite : Icons.favorite_border,
-                    color: widget.product.isFavorite ? Colors.red : Colors.white,
-                  ),
+                  onActionPressed: _toggleFavorite,
+                  actionIcon: _isFavoriteLoading
+                    ? SizedBox(
+                        width: 20,
+                        height: 20,
+                        child: CircularProgressIndicator(
+                          strokeWidth: 2,
+                          valueColor: AlwaysStoppedAnimation<Color>(
+                            widget.product.isFavorite ? Colors.red : Colors.white
+                          ),
+                        ),
+                      )
+                    : Icon(
+                        widget.product.isFavorite ? Icons.favorite : Icons.favorite_border,
+                        color: widget.product.isFavorite ? Colors.red : Colors.white,
+                      ),
                 ),
               ],
             ),
